@@ -273,6 +273,29 @@ async function downloadAssets() {
 
 // ---------- 合成视频 ----------
 
+// 用浏览器把图片等比缩放、补黑边到统一尺寸，输出 JPEG。
+// 不用 ffmpeg.wasm 做这一步：它的 mjpeg 编码器遇到细节丰富的大图会
+// 抛出 "memory access out of bounds"；而且尺寸不一致直接 concat 会丢图。
+async function fitImage(bytes, mime, [w, h]) {
+  const bmp = await createImageBitmap(new Blob([bytes], { type: mime }));
+  try {
+    const canvas = new OffscreenCanvas(w, h);
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, w, h);
+    const scale = Math.min(w / bmp.width, h / bmp.height);
+    const dw = Math.round(bmp.width * scale);
+    const dh = Math.round(bmp.height * scale);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(bmp, Math.floor((w - dw) / 2), Math.floor((h - dh) / 2), dw, dh);
+    const blob = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.95 });
+    return new Uint8Array(await blob.arrayBuffer());
+  } finally {
+    bmp.close();
+  }
+}
+
 async function loadFFmpeg() {
   if (ffmpeg) return ffmpeg;
   setProgress(0.02, "正在加载 ffmpeg.wasm（首次约需数秒）…");
@@ -318,13 +341,15 @@ async function compose() {
     for (const im of note.images) {
       setProgress(0.05 + (0.2 * (im.index - 1)) / note.images.length, `正在准备第 ${im.index} / ${note.images.length} 张图片…`);
       const f = await fetchAny(im.urls, `第 ${im.index} 张图片`);
-      const num = String(im.index).padStart(3, "0");
-      const src = `src${num}.${f.ext}`;
-      const out = `img${num}.jpg`;
-      await ff.writeFile(src, f.bytes.slice());
-      written.push(src, out);
-      const rc = await ff.exec(DNV.buildNormalizeArgs(src, out, size));
-      if (rc !== 0) throw new Error(`第 ${im.index} 张图片处理失败（ffmpeg 退出码 ${rc}）`);
+      const out = `img${String(im.index).padStart(3, "0")}.jpg`;
+      let fitted;
+      try {
+        fitted = await fitImage(f.bytes, f.mime, size);
+      } catch (e) {
+        throw new Error(`第 ${im.index} 张图片无法解码（${f.mime}）：${e.message}`);
+      }
+      await ff.writeFile(out, fitted);
+      written.push(out);
       imageFiles.push(out);
     }
     let audioFile = null;
@@ -375,12 +400,21 @@ async function compose() {
   } catch (e) {
     encodeTotal = 0;
     console.error(e);
-    setProgress(null, e.message || String(e), true);
+    let msg = (e && e.message) || String(e);
+    // WebAssembly 崩溃后这个 ffmpeg 实例就不能再用了，丢掉，下次重新加载
+    if (/RuntimeError|memory access|unreachable|abort/i.test(msg) && ffmpeg) {
+      ffmpeg.terminate();
+      ffmpeg = null;
+      msg += "（ffmpeg 已重置，可调小画面尺寸或帧率后重试；仍失败请附上下方日志提 Issue）";
+    }
+    setProgress(null, msg, true);
   } finally {
-    for (const f of written) {
-      try {
-        await ffmpeg.deleteFile(f);
-      } catch (e) {}
+    if (ffmpeg) {
+      for (const f of written) {
+        try {
+          await ffmpeg.deleteFile(f);
+        } catch (e) {}
+      }
     }
     setBusy(false);
   }

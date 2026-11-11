@@ -89,10 +89,3 @@ test("输出尺寸", () => {
   assert.deepEqual(DNV.resolveSize([], "original"), [1080, 1920]);
 });
 
-test("每张图先单独缩放到统一尺寸（避免尺寸变化时丢图）", () => {
-  const a = DNV.buildNormalizeArgs("src002.jpg", "img002.jpg", [1242, 1660]);
-  assert.equal(a[a.indexOf("-i") + 1], "src002.jpg");
-  assert.match(a[a.indexOf("-vf") + 1], /^scale=1242:1660:.*pad=1242:1660/);
-  assert.equal(a[a.indexOf("-frames:v") + 1], "1");
-  assert.equal(a.at(-1), "img002.jpg");
-});

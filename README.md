@@ -51,7 +51,7 @@
   <img src="assets/screenshot-popup.png" width="300" alt="弹窗截图">
 </p>
 
-**合成要多久？** 取决于电脑性能。以 11 张图、111 秒、1242×1660、15 fps 为例，一般电脑约 1～2 分钟。选 720×1280 或 10 fps 会更快。
+**合成要多久？** 取决于电脑性能。以 11 张图、111 秒的作品为例：原图尺寸 + 15 fps 约 1～2 分钟，1080×1920 + 30 fps 约 3 分钟。选 720×1280 或 10 fps 会更快。
 
 ## 安装
 
@@ -116,7 +116,7 @@ test/                 单元测试与脱敏的测试数据
 scripts/              vendor.sh、build.sh
 ```
 
-**合成流程**：每张图先单独缩放补边到统一尺寸（若直接用 concat 拼接不同尺寸的图片，ffmpeg 会在尺寸变化时重建滤镜而丢掉前一张），再用 concat demuxer 按时长排列，与音乐一起编码为 `libx264` + `aac`，`-tune stillimage`、`-movflags +faststart`。
+**合成流程**：每张图先在浏览器里用 Canvas 等比缩放、补黑边到统一尺寸（不用 ffmpeg.wasm 做这步：它的 mjpeg 编码器遇到细节丰富的大图会崩溃，而且直接 concat 不同尺寸的图片时，ffmpeg 会在尺寸变化处重建滤镜而丢掉前一张），再用 concat demuxer 按时长排列，与音乐一起编码为 `libx264` + `aac`，`-tune stillimage`、`-movflags +faststart`。
 
 欢迎提 Issue 和 PR，参见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 

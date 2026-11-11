@@ -284,16 +284,6 @@
   }
 
   /**
-   * 把单张图片缩放补边到统一尺寸。
-   * 必须先做这一步：concat 时如果图片尺寸不一致，ffmpeg 会重建滤镜，
-   * 尺寸变化前的那一张会被整张丢掉。
-   */
-  function buildNormalizeArgs(input, output, size) {
-    const [w, h] = size;
-    return ["-hide_banner", "-i", input, "-vf", fitFilter(w, h), "-frames:v", "1", "-q:v", "2", "-y", output];
-  }
-
-  /**
    * 生成合成计划
    * @param {object} o
    * @param {string[]} o.imageFiles   虚拟文件系统里的图片文件名（按顺序）
@@ -344,7 +334,7 @@
 
     const [w, h] = o.size;
     const fps = o.fps || 30;
-    // 图片已经用 buildNormalizeArgs 统一过尺寸，这里的缩放只是保险
+    // 图片已经在浏览器里统一过尺寸（studio.js 的 fitImage），这里的缩放只是保险
     const vf = `${fitFilter(w, h)},fps=${fps},format=yuv420p`;
 
     const args = ["-hide_banner", "-f", "concat", "-safe", "0", "-i", "list.txt"];
@@ -393,7 +383,6 @@
     isWatermarked,
     resolveSize,
     buildComposePlan,
-    buildNormalizeArgs,
     safeFileName
   };
 

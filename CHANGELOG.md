@@ -2,6 +2,12 @@
 
 本项目的版本变更记录。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.1] - 2026-11-11
+
+### 修复
+- 合成时出现 `RuntimeError: memory access out of bounds`：图片缩放改由浏览器 Canvas 完成，不再使用 ffmpeg.wasm 的 mjpeg 编码器（细节丰富的大图会让它崩溃）
+- ffmpeg.wasm 崩溃后自动重置，重试时不必重新打开工作台
+
 ## [1.0.0] - 2026-11-11
 
 ### 新增

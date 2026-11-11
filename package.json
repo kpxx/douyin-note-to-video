@@ -1,6 +1,6 @@
 {
   "name": "douyin-note-to-video",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Chrome extension that turns Douyin image posts (images + background music) into an MP4 locally with ffmpeg.wasm.",
   "scripts": {

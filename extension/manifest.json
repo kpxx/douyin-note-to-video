@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "抖音图文转视频",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "把抖音图文作品的无水印原图和背景音乐，在浏览器本地用 ffmpeg.wasm 合成为 MP4 视频，也可一键下载全部素材。",
   "minimum_chrome_version": "116",
   "icons": {
