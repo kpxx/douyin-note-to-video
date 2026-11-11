@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>抖音图文转视频</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img src="icons/icon48.png" width="28" height="28" alt="">
+      <span>抖音图文转视频</span>
+    </div>
+    <a id="source" class="source" target="_blank" rel="noopener" hidden>查看原作品 ↗</a>
+  </header>
+
+  <main id="app">
+    <div id="fatal" class="fatal" hidden></div>
+
+    <section class="work" id="work" hidden>
+      <div class="gallery-col">
+        <div class="note-head">
+          <div id="author" class="author"></div>
+          <p id="desc" class="desc"></p>
+        </div>
+        <ol id="gallery" class="gallery"></ol>
+        <div id="musicCard" class="music-card" hidden>
+          <div class="music-icon" aria-hidden="true">♪</div>
+          <div class="music-text">
+            <div id="musicTitle" class="music-title"></div>
+            <div id="musicSub" class="music-sub"></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h2>合成设置</h2>
+
+        <fieldset>
+          <legend>每张图片停留</legend>
+          <label class="opt"><input type="radio" name="per" value="auto" checked> 自动 <small id="autoHint"></small></label>
+          <label class="opt"><input type="radio" name="per" value="manual"> 手动
+            <input id="perSec" type="number" min="0.5" max="60" step="0.5" value="3"> 秒</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>视频长度</legend>
+          <label class="opt"><input type="radio" name="len" value="music" checked> 跟随音乐（图片循环播放）</label>
+          <label class="opt"><input type="radio" name="len" value="images"> 图片播完即结束</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>画面尺寸</legend>
+          <select id="size">
+            <option value="original" id="sizeOriginal">原图尺寸</option>
+            <option value="1080x1920">1080 × 1920（9:16 竖屏）</option>
+            <option value="1080x1440">1080 × 1440（3:4）</option>
+            <option value="1080x1080">1080 × 1080（1:1）</option>
+            <option value="720x1280">720 × 1280（较小、较快）</option>
+          </select>
+        </fieldset>
+
+        <div class="two">
+          <fieldset>
+            <legend>帧率</legend>
+            <select id="fps">
+              <option value="30">30 fps</option>
+              <option value="15" selected>15 fps</option>
+              <option value="10">10 fps</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <legend>画质</legend>
+            <select id="crf">
+              <option value="18">高</option>
+              <option value="21" selected>标准</option>
+              <option value="25">省空间</option>
+            </select>
+          </fieldset>
+        </div>
+
+        <p id="summary" class="summary"></p>
+
+        <div class="actions">
+          <button id="compose" class="primary">合成 MP4</button>
+          <button id="download">下载原图和音乐</button>
+        </div>
+
+        <div id="progress" class="progress" hidden>
+          <div class="bar"><i id="bar"></i></div>
+          <div id="stage" class="stage"></div>
+        </div>
+
+        <div id="result" class="result" hidden>
+          <video id="video" controls playsinline></video>
+          <div class="result-row">
+            <span id="resultInfo"></span>
+            <button id="save" class="primary">保存视频</button>
+          </div>
+        </div>
+
+        <details class="log">
+          <summary>ffmpeg 日志</summary>
+          <pre id="log"></pre>
+        </details>
+
+        <p class="fine">全部处理都在你的浏览器本地完成，不会上传任何文件。合成速度取决于电脑性能，100 秒左右的视频通常需要一到几分钟。</p>
+      </aside>
+    </section>
+  </main>
+
+  <script src="lib/parse.js"></script>
+  <script type="module" src="studio.js"></script>
+</body>
+</html>

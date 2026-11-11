@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon32.png" width="20" height="20" alt="">
+    <h1>抖音图文转视频</h1>
+  </header>
+
+  <div id="status" class="status">正在读取当前页面…</div>
+
+  <section id="note" hidden>
+    <div class="meta">
+      <div id="author" class="author"></div>
+      <div id="desc" class="desc"></div>
+    </div>
+    <div id="thumbs" class="thumbs"></div>
+    <ul class="facts">
+      <li><span>图片</span><b id="count"></b></li>
+      <li><span>音乐</span><b id="music"></b></li>
+      <li><span>时长</span><b id="duration"></b></li>
+    </ul>
+    <div class="row">
+      <button id="compose" class="primary">合成视频</button>
+      <button id="download">下载原图和音乐</button>
+    </div>
+  </section>
+
+  <script src="lib/parse.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

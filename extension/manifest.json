@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "抖音图文转视频",
+  "version": "1.0.0",
+  "description": "把抖音图文作品的无水印原图和背景音乐，在浏览器本地用 ffmpeg.wasm 合成为 MP4 视频，也可一键下载全部素材。",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage", "downloads", "scripting", "declarativeNetRequest"],
+  "host_permissions": [
+    "*://*.douyin.com/*",
+    "*://*.douyinpic.com/*",
+    "*://*.douyinstatic.com/*",
+    "*://*.douyinvod.com/*",
+    "*://*.zjcdn.com/*",
+    "*://*.amemv.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "抖音图文转视频",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.douyin.com/*"],
+      "js": ["lib/parse.js", "hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["*://www.douyin.com/*"],
+      "js": ["lib/parse.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+D", "mac": "Alt+Shift+D" },
+      "description": "打开插件"
+    }
+  }
+}

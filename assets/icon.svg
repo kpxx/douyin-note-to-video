@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF5A7A"/>
+      <stop offset="1" stop-color="#E0245E"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#bg)"/>
+  <!-- back photo -->
+  <rect x="22" y="24" width="52" height="64" rx="8" fill="#fff" opacity=".45" transform="rotate(-10 48 56)"/>
+  <!-- front photo -->
+  <rect x="34" y="28" width="56" height="70" rx="9" fill="#fff"/>
+  <!-- play triangle -->
+  <path d="M54 48 L76 63 L54 78 Z" fill="#E0245E"/>
+  <!-- music note badge -->
+  <circle cx="92" cy="92" r="21" fill="#fff"/>
+  <g fill="#E0245E">
+    <rect x="93" y="78" width="5" height="20" rx="2"/>
+    <path d="M98 78 Q105 80 106 87 Q101 83 98 84 Z"/>
+    <ellipse cx="89" cy="99" rx="7" ry="5.5"/>
+  </g>
+</svg>

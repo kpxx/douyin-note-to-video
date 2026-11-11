@@ -1,0 +1,53 @@
+{
+ "status_code": 0,
+ "aweme_list": [
+  {
+   "aweme_id": "7700000000000000002",
+   "aweme_type": 68,
+   "desc": "接口里的图文",
+   "author": {
+    "nickname": "某用户"
+   },
+   "images": [
+    {
+     "width": 1080,
+     "height": 1920,
+     "url_list": [
+      "https://p26-sign.douyinpic.com/x~tplv-dy-aweme-images:q75.webp?s=1",
+      "https://p26-sign.douyinpic.com/x~tplv-dy-aweme-images:q75.jpeg?s=1"
+     ],
+     "download_url_list": [
+      "https://p26-sign.douyinpic.com/x~tplv-dy-water-v2:BBB.jpeg"
+     ],
+     "video": {
+      "play_addr": {
+       "url_list": [
+        "https://v26-web.douyinvod.com/live/x.mp4"
+       ]
+      }
+     }
+    }
+   ],
+   "music": {
+    "title": "原声",
+    "author": "某用户",
+    "duration": 20,
+    "play_url": {
+     "url_list": [
+      "https://sf5-hl-cdn-tos.douyinstatic.com/obj/ies-music/abc.mp3"
+     ]
+    }
+   },
+   "image_album_music_info": {
+    "begin_time": 5000,
+    "end_time": 20000
+   }
+  },
+  {
+   "aweme_id": "7700000000000000003",
+   "aweme_type": 0,
+   "desc": "普通视频",
+   "images": null
+  }
+ ]
+}
